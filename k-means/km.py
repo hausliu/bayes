@@ -3,11 +3,9 @@ import numpy as np
 import copy  # 深度拷贝需要引入copy模块
 
 
-def loadNBA():
+def load():
     df = pd.read_csv('./newData.csv', encoding='gbk')
     df.dropna(inplace=True)  # 删除有缺失的行
-    # df.info()            #查看删除后的information
-
     # 下面三行将第一列label置换到最后一列，方便后续处理
     labelSerise = df.iloc[:, 0]
     df.drop(df.columns[0], axis=1, inplace=True)  # dataframe删除列，按列序号删除需要使用df.columes[c1,c2,...], axis置为1
@@ -18,17 +16,6 @@ def loadNBA():
         label = df.iloc[i, -1]
         if label.find('-') >= 0:
             df.iloc[i, -1] = df.iloc[i, -1][:label.find('-')]
-
-    # #检查是否处理成功
-    # for x in df.iloc[:,-1]:
-    #     if x.find('-') >= 0:
-    #         print(x)
-    return df
-
-
-def loadIris():
-    df = pd.read_csv('./iris.csv')
-    df.dropna(inplace=True)  # 删除有缺失的行
     return df
 
 
@@ -53,12 +40,6 @@ def fit(k, data, tolerance=0.000001, maxTimes=9999999):
     for i in range(maxTimes):
         count += 1
 
-        # # 输出中心点更新信息
-        # print("第",count,"次更新节点，当前中心坐标为:")
-        # for key in centers:
-        #     print(key,"：",centers[key],sep='')
-        # print("\n")
-
         # 初始化分类器，共k类，每类对应一个list存放该类的instance
         for i in range(k):
             clf[i] = []
@@ -80,16 +61,7 @@ def fit(k, data, tolerance=0.000001, maxTimes=9999999):
             centers[key] = np.average(m, axis=0)  # 计算每一列的均值，即新的center
 
         # 输出中间过程结果
-        print("迭代次数为：", count, sep='')
-        res = statistic(clf)
-        print('数量统计分析：')
-        s, p = analyse(res)
-        for key in s:
-            print('label' + str(key), ':', s[key])
-        print('百分比统计分析：')
-        for key in p:
-            print('label' + str(key), ':', p[key])
-        print('')
+        print("第{0}次迭代".format(count))
 
         # 判断是否达到结束循环条件
         flag = 1
@@ -147,6 +119,15 @@ def analyse(res):
 
 
 if __name__ == '__main__':
-    df = loadNBA()
+    df = load()
     dataWithLable = df.values  # dataframe 转 numpy
     clf = fit(5, dataWithLable, tolerance=0.005, maxTimes=99)
+    res = statistic(clf)
+    print('数量统计分析：')
+    s, p = analyse(res)
+    for key in s:
+        print('类别' + str(key), ':', s[key])
+    print('百分比统计分析：')
+    for key in p:
+        print('类别' + str(key), ':', p[key])
+    print('')

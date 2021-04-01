@@ -3,6 +3,7 @@ import torch
 import numpy as np
 from matplotlib import pyplot
 
+
 class K_Means(object):
     # k是分组数；tolerance‘中心点误差’；max_iter是迭代次数
     def __init__(self, k=2, tolerance=0.0001, max_iter=300):
@@ -19,7 +20,7 @@ class K_Means(object):
             self.clf_ = {}
             for i in range(self.k_):
                 self.clf_[i] = []
-            print("质点:",self.centers_)
+            print("质点:", self.centers_)
             for feature in data:
                 # distances = [np.linalg.norm(feature-self.centers[center]) for center in self.centers]
                 distances = []
@@ -30,7 +31,7 @@ class K_Means(object):
                 classification = distances.index(min(distances))
                 self.clf_[classification].append(feature)
 
-            print("分组情况:",self.clf_)
+            print("分组情况:", self.clf_)
             prev_centers = dict(self.centers_)
             for c in self.clf_:
                 self.centers_[c] = np.average(self.clf_[c], axis=0)
