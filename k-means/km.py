@@ -18,7 +18,6 @@ def load():
             df.iloc[i, -1] = df.iloc[i, -1][:label.find('-')]
     return df
 
-
 # ### 以上内容为数据处理
 
 def initializeCenter(k, data):
@@ -26,10 +25,6 @@ def initializeCenter(k, data):
     for i in range(k):
         center[i] = data[i][:-1]
     return center
-
-
-# center = initializeCenter(5,data)
-# print(center)
 
 
 def fit(k, data, tolerance=0.000001, maxTimes=9999999):

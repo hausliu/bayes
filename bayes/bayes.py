@@ -103,10 +103,10 @@ def main():
     splitRatio = 0.8
     dataset = loadCsv(filename)
     # 分割训练集和测试集
-    # trainingSet, testSet = splitDataset(dataset, splitRatio)
+    trainingSet, testSet = splitDataset(dataset, splitRatio)
     trainingSet = dataset
-    testSet = [[0.52, 0.8, 1.0, 0.0, 0.0, 5.0, 'SF'], [0.33, 0.5, 0.0, 0.0, 0.0, 1.0, 'PF'],
-               [0.47, 0.7, 2.0, 4.0, 1.0, 8.0, 'PG']]
+    # testSet = [[0.52, 0.8, 1.0, 0.0, 0.0, 5.0, 'SF'], [0.33, 0.5, 0.0, 0.0, 0.0, 1.0, 'PF'],
+    #            [0.47, 0.7, 2.0, 4.0, 1.0, 8.0, 'PG']]
     print('Split {0} rows into train={1} and test={2} rows'.format(len(dataset), len(trainingSet), len(testSet)))
     # dataset按标签类别进行分类，separated格式如下：{'c':[[样本1],[样本2],[样本3]],'SF':[[。。],[。。],[。。]]}
     # 对separated字典计算每一类对应每列的均值和标准差
